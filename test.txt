@@ -1,0 +1,28 @@
+test!!
+
+fs文件操作
+
+require('fs')
+fs.existsSync(path)检查文件是否存在
+fs.readFile
+fs.writeFile
+
+Event
+
+require('events')
+events.on(eventName,function(data){})
+events.emit(eventName,data)
+
+Stream
+
+fs.createReadStream(path)
+fs.createWriteStream(path)
+Stream pipe 管道
+
+Http(爬虫)
+http.get('url',handler)
+http.request(options)
+cheerio模块 解析返回的html结果
+
+Promise
+async await
