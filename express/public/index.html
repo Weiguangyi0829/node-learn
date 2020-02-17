@@ -11,7 +11,13 @@
         function getUserName() {
             axios.get('./get_username').then(function (result) {
                 console.log(result.data);
-                
+                document.getElementById('user_name').innerText = result.data.name;
+            })
+        }
+        function getClassNmae() {
+            axios.get('./get_classname').then(function (result) {
+                console.log(result.data);
+                document.getElementById('class_name').innerText = result.data.name;
             })
         }
     </script>
@@ -19,5 +25,9 @@
 <body>
     <h1>public静态资源</h1>
     <button onclick="getUserName()">获取用户名</button>
+    <span id="user_name"></span>
+    <br>
+    <button onclick="getClassNmae()">获取班级</button>
+    <span id="class_name"></span>
 </body>
 </html>
