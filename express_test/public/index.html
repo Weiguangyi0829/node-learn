@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src=""></script>
+    <script>
+        function getFriends(){
+            //原生
+            var http = new XMLHttpRequest();
+            
+            http.onreadystatechange = function(){
+                if(http.readyState === 4){
+                    if(http.status === 200){
+                   
+                        var friends = JSON.parse(http.responseText);
+
+                        var ul = document.getElementById('my_friend');
+                        
+                        ul.innerHTML='';
+                        for(var i = 0; i < friends.length; i++){
+                            friends[i].name;
+                            var li = document.createElement('li');
+                            li.innerText = friends[i].name;
+                            ul.appendChild(li);
+
+                        }
+                    }
+                }
+            }
+
+            http.open('GET','/get_friends');
+            http.send();
+
+        }
+    </script>
+</head>
+<body>
+    <button onclick="getFriends()">获取好友列表</button>
+    <ul id="my_friend">
+
+    </ul>
+</body>
+</html>
