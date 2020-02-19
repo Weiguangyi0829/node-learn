@@ -34,36 +34,18 @@
             http.send();
 
         }
-        function getFriends2(){
-            //原生
-            var http = new XMLHttpRequest();
-            
-            http.onreadystatechange = function(){
-                if(http.readyState === 4){
-                    if(http.status === 200){
-                   
-                        var friends = JSON.parse(http.responseText);
-
-                        var ul = document.getElementById('my_friend');
-                        
-                        ul.innerHTML='';
-                        for(var i = 0; i < friends.length; i++){
-                            friends[i].name;
-                            var li = document.createElement('li');
-                            li.innerText = friends[i].name;
-                            ul.appendChild(li);
-
-                        }
-                    }
-                }
-            }
-
-            http.open('GET','/get_friends2');
-            http.send();
-
-        }
         function registerUser(){
-            axios.post('/register_user')
+
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            
+            axios.post('/register_user',{
+                username:username,
+                password:password
+            }).then(function(result){
+                console.log(result.data);
+                
+            })
         }
     </script>
 </head>
@@ -73,13 +55,12 @@
 
     </ul>
     <br>
-    <button onclick="getfriends2()">获取用户</button>
     <div>
         用户名：<input id="username" type="text">
         <br>
         密码：<input id="password" type="text" name="" id="">
         <br>
-        <button>提交</button>
+        <button onclick="registerUser()">提交</button>
     </div>
 </body>
 </html>
