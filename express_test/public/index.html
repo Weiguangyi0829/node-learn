@@ -44,6 +44,11 @@
                 password:password
             }).then(function(result){
                 console.log(result.data);
+                if(result.data.status === 10000){
+                    alert('ok');
+                }else{
+                    alert(result.data.msg);
+                }
                 
             })
         }

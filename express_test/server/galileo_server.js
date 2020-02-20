@@ -18,10 +18,14 @@ app.get('/get_friends', function (req, res) {
 })
 
 app.post('/register_user',function(req,res){
-    req.body;
-    console.log(req.body);
 
-    res.send('ok');
+    res.send({
+        status:10000, //状态码
+        msg:'成功',
+        data:{
+            user_id:'10000'
+        }
+    });// result.data 前端收到的结果
     
 })
 
@@ -31,6 +35,5 @@ app.listen(4040, function (err) {
         return;
 
     }
-    console.log('http://localhost:4040');
-
+    console.log('http://localhost:4040'); 
 })
