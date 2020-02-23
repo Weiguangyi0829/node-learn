@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="axios.min.js"></script>
+    <script>
+        function register() {
+            var login_name = document.getElementById('login_name').value;
+            var password = document.getElementById('password').value;
+            var password_confirm = document.getElementById('password_confirm').value;
+
+            axios.post('/register',{
+                login_name:login_name,
+                password:password,
+                password_confirm:password_confirm
+            }).then(function(result){
+                console.log(result.data);
+                
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div action="">
+        登录名<input type="text" id="login_name">
+        密码<input type="password" name="" id="password">
+        确认密码<input type="password" name="" id="password_confirm">
+        <button onclick="register()">注册</button>
+    </div>
+</body>
+
+</html>
