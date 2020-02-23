@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname,'..','public')));
 
-app.post('/register',function(req,res){
+app.post('/register',(req,res)=>{
     console.log(req.body.login_name);
     
     // console.log(req.body.password);
@@ -16,7 +16,7 @@ app.post('/register',function(req,res){
 })
 
 const port = 3030;
-app.listen(port,function(err){
+app.listen(port,(err)=>{
     if(err){
         console.log(err);
         return;
