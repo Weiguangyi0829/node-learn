@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        background-color: seagreen;
+    }
+
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 500px;
+    }
+
+    .heading {
+
+        font-size: 100px;
+        color: white;
+        text-shadow: 5px 4px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .heading span {
+        cursor: pointer;
+        transition: transform 0.25s;
+    }
+    .heading span:hover{
+      transform: translateX(-5px) translateY(-20px) rotate(10deg) scale(1.5);  
+    }
+</style>
+
+<body>
+    <div class="heading">GALILEO!</div>
+
+    <script>
+        const heading = document.querySelector('.heading');
+
+        console.log(Span(heading.textContent));
+        heading.innerHTML = Span(heading.textContent);
+
+        function Span(word) {
+           /*  return [...word].map(function (letter) {
+                return `<span>${letter}</span>`
+            }).join('') */
+            //箭头函数改写
+            return [...word].map(letter => `<span>${letter}</span>`).join('')
+        }
+    </script>
+</body>
+
+</html>
