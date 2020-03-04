@@ -33,8 +33,8 @@ function getDBSync() {
     })
 }
 function getMy(my_collection) {
-    return new Promise( (resove, reject) => {
-        my_collection.find({}).toArray( (err, result) => {
+    return new Promise(function (resove, reject) {
+        my_collection.find({}).toArray(function (err, result) {
             if (err) {
                 reject(err);
                 return;
