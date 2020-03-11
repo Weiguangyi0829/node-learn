@@ -10,12 +10,16 @@
         function register() {
             var login_name = document.getElementById('login_name').value;
             var password = document.getElementById('password').value;
-            var password_confirm = document.getElementById('password_confirm').value;
+            // var password_confirm = document.getElementById('password_confirm').value;
+
+            if (password.trim()===''){
+                alert('1');
+                return;
+            }
 
             axios.post('/register',{
                 login_name:login_name,
                 password:password,
-                password_confirm:password_confirm
             }).then((result) => {
                 console.log(result.data);
                 
@@ -31,7 +35,7 @@
     <div action="">
         登录名<input type="text" id="login_name">
         密码<input type="password" name="" id="password">
-        确认密码<input type="password" name="" id="password_confirm">
+        <!-- 确认密码<input type="password" name="" id="password_confirm"> -->
         <button onclick="register()">注册</button>
     </div>
 </body>

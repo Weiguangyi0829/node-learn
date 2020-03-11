@@ -9,7 +9,7 @@ function getStoreDB(callback){
         callback(storeDB);
         return;
     }
-    MC.connect(dbUrl,function(err,result){
+    MC.connect(dbUrl,function(err,client){
         if(err){
             console.log(err);
             return;
