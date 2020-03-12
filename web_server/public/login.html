@@ -4,8 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="./axios.min.js"></script>
+    <script>
+        function login() {
+            var login_name = document.getElementById('login_name').value;
+            var password = document.getElementById('password').value;
+            // var password_confirm = document.getElementById('password_confirm').value;
+
+            if (password.trim()===''){
+                alert('1');
+                return;
+            }
+
+            axios.post('/login',{
+                login_name:login_name,
+                password:password,
+            }).then((result) => {
+                console.log(result.data);
+               
+            }).catch(err =>{
+                console.log(err);
+                
+            })
+        }
+    </script>
+    <style>
+        body{
+            background-color: seagreen;
+        }
+    </style>
 </head>
 <body>
-    <h1>login</h1>
+     <div action="">
+        登录名<input type="text" id="login_name">
+        密码<input type="password" name="" id="password">
+        <!-- 确认密码<input type="password" name="" id="password_confirm"> -->
+        <button onclick="login()">登录</button>
+    </div>
 </body>
 </html>
