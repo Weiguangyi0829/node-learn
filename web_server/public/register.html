@@ -22,7 +22,7 @@
                 password:password,
             }).then((result) => {
                 console.log(result.data);
-                if(result.data.status === 1000){
+                if(result.data.status === 100){
                     location.herf = './login.html';
                 }
             }).catch(err =>{

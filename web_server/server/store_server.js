@@ -14,7 +14,7 @@ app.post('/register', (req, res) => {
     // console.log(req.body.login_name);
 
     getStoreDB(function (storeDb) {//callback: function(storeDb)
-        storeDb.collection('users').insertOne(req.body, function (err, result) {
+        storeDb.collection('users').insertOne(req.body, function (err, res) {
             if (err) {
                 console.log(err);
                 res.send({
@@ -27,7 +27,7 @@ app.post('/register', (req, res) => {
                 status: 100,
                 msg: 'ok',
                 data: {
-                    user_id: result.insertedId
+                    user_id: res.insertedId
                 }
             })
         })
@@ -35,25 +35,32 @@ app.post('/register', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-    const login_name = req.body.login_name;
-    const password = req.body.password;
+    const lgn = req.body.login_name;
+    const psw = req.body.password;
 
     getStoreDB(function (storeDb) {//callback: function(storeDb)
-        storeDb.collection('users').find({login_name: login_name, password: password}).toArray(function (err, result) {
+        storeDb.collection('users').find({login_name: lgn, password: psw}).toArray(function (err, result) {
             if (err) {
                 res.send({
                     status: 251,
-                    msg: '登录失败'
+                    msg: '数据库连接错误'
                 })
                 return;
             }
-            res.send({
-                status: 101,
-                msg: '登录成功',
-                data: {
-                    user_id: result.insertedId
-                }
-            })
+            if(result.length !== 0){
+                res.send({
+                    status: 101,
+                    msg: '登录成功',
+                    data: {
+                        user_id: result.insertedId
+                    }
+                })
+            }else{
+                res.send({
+                    status: 252,
+                    msg: '登录失败'
+                })
+            }
         })
     });
 })
@@ -67,3 +74,5 @@ app.listen(port, (err) => {
     console.log(`http://localhost:${port}`);
 
 })
+
+//--inspect-brk
