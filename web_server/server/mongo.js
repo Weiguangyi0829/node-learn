@@ -16,7 +16,7 @@ function getStoreDB(callback){
         }
         console.log('连接成功');
         storeDB = client.db('store');
-        callback(storeDB)
+        callback(storeDB);
         
     });
 }

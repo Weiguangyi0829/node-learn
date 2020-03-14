@@ -14,7 +14,7 @@ app.post('/register', (req, res) => {
     // console.log(req.body.login_name);
 
     getStoreDB(function (storeDb) {//callback: function(storeDb)
-        storeDb.collection('users').insertOne(req.body, function (err, res) {
+        storeDb.collection('users').insertOne(req.body, function (err, result) {
             if (err) {
                 console.log(err);
                 res.send({
@@ -49,7 +49,7 @@ app.post('/login', (req, res) => {
             }
             if(result.length !== 0){
                 res.send({
-                    status: 101,
+                    status: 100,
                     msg: '登录成功',
                     data: {
                         user_id: result.insertedId
