@@ -65,6 +65,27 @@ app.post('/login', (req, res) => {
     });
 })
 
+app.get('/get_products',function(req,res){
+    getStoreDB(function(storeDb){
+        storeDb.collection('products').find({}).toArray(function(err,result){
+            if(err){
+                res.send({
+                    status: 10002,
+                    msg:'数据库连接错误'
+                });
+                return;
+            }
+            res.send({
+                status: 100,
+                msg:'ok',
+                data:{
+                    products:result
+                }
+            })
+        })
+    })
+})
+
 const port = 3030;
 app.listen(port, (err) => {
     if (err) {
