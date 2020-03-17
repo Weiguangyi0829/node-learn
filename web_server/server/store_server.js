@@ -18,7 +18,7 @@ app.post('/register', (req, res) => {
             if (err) {
                 console.log(err);
                 res.send({
-                    status: 250,
+                    status: 10001,
                     msg: err.message
                 })
                 return;
@@ -42,7 +42,7 @@ app.post('/login', (req, res) => {
         storeDb.collection('users').find({login_name: lgn, password: psw}).toArray(function (err, result) {
             if (err) {
                 res.send({
-                    status: 251,
+                    status: 10002,
                     msg: '数据库连接错误'
                 })
                 return;
@@ -57,7 +57,7 @@ app.post('/login', (req, res) => {
                 })
             }else{
                 res.send({
-                    status: 252,
+                    status: 10003,
                     msg: '登录失败'
                 })
             }

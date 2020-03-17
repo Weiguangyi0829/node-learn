@@ -10,16 +10,17 @@
         function getProducts() {
             axios.get('/get_products').then(function (result) {
                 var productsData = result.data;
-                if (productsData === 100) {
+                if (productsData.status === 100) {
                     console.log(productsData.data.products);
-
-                    // return productsData.data.products
+                    painProducts(productsData.data.products);
+                    
+                    
                 }
             })
         }
 
         function painProducts(products) {
-            var product_body = document.getElementById('product_table');
+            var product_body = document.getElementById('product_body');
             for (let product of products) {
                 var tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -31,11 +32,14 @@
             product_body.appendChild(tr); 
             }
         }
+        window.onload = function(){
+            getProducts();
+        }
     </script>
 </head>
 
 <body>
-    <table>
+    <table id="product_table">
         <thead>
             <tr>
                 <th>产品名称</th>
@@ -44,13 +48,7 @@
                 <th>操作</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+        <tbody id="product_body">
         </tbody>
     </table>
 </body>
