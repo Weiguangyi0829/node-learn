@@ -1,4 +1,6 @@
 const express = require('express');
+const mongodb = require('mongodb')
+const ObjectId = mongodb.ObjectId;
 
 const { getStoreDB } = require('./mongo');
 
@@ -39,7 +41,7 @@ app.post('/login', (req, res) => {
     const psw = req.body.password;
 
     getStoreDB(function (storeDb) {//callback: function(storeDb)
-        storeDb.collection('users').find({login_name: lgn, password: psw}).toArray(function (err, result) {
+        storeDb.collection('users').find({ login_name: lgn, password: psw }).toArray(function (err, result) {
             if (err) {
                 res.send({
                     status: 10002,
@@ -47,7 +49,7 @@ app.post('/login', (req, res) => {
                 })
                 return;
             }
-            if(result.length !== 0){
+            if (result.length !== 0) {
                 res.send({
                     status: 100,
                     msg: '登录成功',
@@ -55,7 +57,7 @@ app.post('/login', (req, res) => {
                         user_id: result.insertedId
                     }
                 })
-            }else{
+            } else {
                 res.send({
                     status: 10003,
                     msg: '登录失败'
@@ -65,23 +67,71 @@ app.post('/login', (req, res) => {
     });
 })
 
-app.get('/get_products',function(req,res){
-    getStoreDB(function(storeDb){
-        storeDb.collection('products').find({}).toArray(function(err,result){
-            if(err){
+app.get('/get_products', function (req, res) {
+    getStoreDB(function (storeDb) {
+        storeDb.collection('products').find({}).toArray(function (err, result) {
+            if (err) {
                 res.send({
                     status: 10002,
-                    msg:'数据库连接错误'
+                    msg: '数据库连接错误'
                 });
                 return;
             }
             res.send({
                 status: 100,
-                msg:'ok',
-                data:{
-                    products:result
+                msg: 'ok',
+                data: {
+                    products: result
                 }
             })
+        })
+    })
+})
+
+app.post('/add_products', function (req, res) {
+    getStoreDB(function (storeDb) {
+        storeDb.collection('products').insertOne(req.body, function (err, result) {
+            if (err) {
+                res.send({
+                    status: 10002,
+                    msg: '数据库连接错误'
+                });
+                return;
+            }
+
+            res.send({
+                status: 100,
+                msg: 'ok',
+                data: {
+                    products: result
+                }
+            })
+        })
+    })
+})
+
+app.post('/del_products', function (req, res) {
+    getStoreDB(function (storeDb) {
+        storeDb.collection('products').remove({ _id: ObjectId(req.body._id) }, function (err, result) {
+            if (err) {
+                res.send({
+                    status: 10002,
+                    msg: '数据库连接错误'
+                });
+                return;
+            }
+            if (result.result.n === 1) {
+                res.send({
+                    status: 100,
+                    msg: 'ok',
+                })
+            }else{
+                res.send({
+                    status: 10004,
+                    msg:'删除失败'
+                })
+            }
+
         })
     })
 })

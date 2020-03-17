@@ -11,7 +11,6 @@
             axios.get('/get_products').then(function (result) {
                 var productsData = result.data;
                 if (productsData.status === 100) {
-                    console.log(productsData.data.products);
                     painProducts(productsData.data.products);
                     
                     
@@ -27,19 +26,50 @@
             <td>${product.name}</td>
             <td>${product.price}</td>
             <td>${product.count}</td>
-            <td><button>删除</button></td>
+            <td><button onclick="del_products('${product._id}')">删除</button></td>
             `
             product_body.appendChild(tr); 
             }
         }
+
+        function addProduct(){
+            var name = document.getElementById('name').value;
+            var price = document.getElementById('price').value;
+            var count = document.getElementById('count').value;
+            axios.post('/add_products',{
+                name,
+                price,
+                count
+            }).then(function(result){
+                if(result.data.status===100){
+                    location.reload(true);
+                }
+            })
+        }
+
+        function del_products(_id){
+            axios.post('/del_products',{
+                _id
+            }).then(function(result){
+                if(result.data.status===100){
+                    location.reload(true);
+                }
+            })
+        }
+
         window.onload = function(){
             getProducts();
         }
     </script>
+    <style>
+        .border{
+            border:slategrey 1px solid;
+        }
+    </style>
 </head>
 
 <body>
-    <table id="product_table">
+    <table class="border" id="product_table">
         <thead>
             <tr>
                 <th>产品名称</th>
@@ -51,6 +81,13 @@
         <tbody id="product_body">
         </tbody>
     </table>
+    <hr>
+    <div>
+        <input type="text" name="" id="name">
+        <input type="number" name="" id="price">
+        <input type="number" name="" id="count">
+        <button onclick="addProduct()">添加</button>
+    </div>
 </body>
 
 </html>
