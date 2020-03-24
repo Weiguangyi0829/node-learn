@@ -6,10 +6,9 @@ let user = {
     name: 'zhang san',
 };
 
-let token = jwt.sign(user, key);
+let token_sign = jwt.sign(user, key,{expiresIn: 10});
 
-console.log(token);
-const obj = jwt.verify(tokey,key);
-console.log(obj);
+console.log(token_sign);
+
 
 fs.writeFileSync('./token.txt', token_sign);

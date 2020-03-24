@@ -8,12 +8,15 @@
     <script src="./axios.min.js"></script>
     <script>
         function getProducts() {
-            axios.get('/get_products').then(function (result) {
+
+            axios.post('/get_products', {
+                token: sessionStorage.getItem('token')
+            }).then(function (result) {
                 var productsData = result.data;
                 if (productsData.status === 100) {
                     painProducts(productsData.data.products);
-                    
-                    
+
+
                 }
             })
         }
@@ -28,42 +31,42 @@
             <td>${product.count}</td>
             <td><button onclick="del_products('${product._id}')">删除</button></td>
             `
-            product_body.appendChild(tr); 
+                product_body.appendChild(tr);
             }
         }
 
-        function addProduct(){
+        function addProduct() {
             var name = document.getElementById('name').value;
             var price = document.getElementById('price').value;
             var count = document.getElementById('count').value;
-            axios.post('/add_products',{
+            axios.post('/add_products', {
                 name,
                 price,
                 count
-            }).then(function(result){
-                if(result.data.status===100){
+            }).then(function (result) {
+                if (result.data.status === 100) {
                     location.reload(true);
                 }
             })
         }
 
-        function del_products(_id){
-            axios.post('/del_products',{
+        function del_products(_id) {
+            axios.post('/del_products', {
                 _id
-            }).then(function(result){
-                if(result.data.status===100){
+            }).then(function (result) {
+                if (result.data.status === 100) {
                     location.reload(true);
                 }
             })
         }
 
-        window.onload = function(){
+        window.onload = function () {
             getProducts();
         }
     </script>
     <style>
-        .border{
-            border:slategrey 1px solid;
+        .border {
+            border: slategrey 1px solid;
         }
     </style>
 </head>

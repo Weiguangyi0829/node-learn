@@ -1,5 +1,9 @@
 const express = require('express');
-const mongodb = require('mongodb')
+const mongodb = require('mongodb');
+const jwt = require('jsonwebtoken');
+
+const key = 'asdfsdghaeerhadf'
+
 const ObjectId = mongodb.ObjectId;
 
 const { getStoreDB } = require('./mongo');
@@ -50,11 +54,15 @@ app.post('/login', (req, res) => {
                 return;
             }
             if (result.length !== 0) {
+                const token = jwt.sign({
+                    login_name : lgn
+
+                }, key)
                 res.send({
                     status: 100,
                     msg: '登录成功',
                     data: {
-                        user_id: result.insertedId
+                        token
                     }
                 })
             } else {
@@ -67,25 +75,38 @@ app.post('/login', (req, res) => {
     });
 })
 
-app.get('/get_products', function (req, res) {
-    getStoreDB(function (storeDb) {
-        storeDb.collection('products').find({}).toArray(function (err, result) {
-            if (err) {
-                res.send({
-                    status: 10002,
-                    msg: '数据库连接错误'
-                });
-                return;
-            }
+app.post('/get_products', function (req, res) {
+
+    jwt.verify(req.body.token, key, function (err, loginObj) {
+        if (err) {
             res.send({
-                status: 100,
-                msg: 'ok',
-                data: {
-                    products: result
+                status: 10005,
+                msg: 'token失效'
+            });
+            return;
+        } 
+        getStoreDB(function (storeDb) {
+            storeDb.collection('products').find({}).toArray(function (err, result) {
+                if (err) {
+                    res.send({
+                        status: 10002,
+                        msg: '数据库连接错误'
+                    });
+                    return;
                 }
+                res.send({
+                    status: 100,
+                    msg: 'ok',
+                    data: {
+                        products: result
+                    }
+                })
             })
         })
-    })
+
+    });
+
+
 })
 
 app.post('/add_products', function (req, res) {
@@ -125,10 +146,10 @@ app.post('/del_products', function (req, res) {
                     status: 100,
                     msg: 'ok',
                 })
-            }else{
+            } else {
                 res.send({
                     status: 10004,
-                    msg:'删除失败'
+                    msg: '删除失败'
                 })
             }
 
