@@ -9,9 +9,7 @@
     <script>
         function getProducts() {
 
-            axios.post('/get_products', {
-                token: sessionStorage.getItem('token')
-            }).then(function (result) {
+            axios.get('/get_products').then(function (result) {
                 var productsData = result.data;
                 if (productsData.status === 100) {
                     painProducts(productsData.data.products);

@@ -20,9 +20,9 @@
                 password:password,
             }).then((result) => {
                 console.log(result.data);
-                sessionStorage.setItem('token',result.data.data.token);
+                
                 if(result.data.status === 100){
-                    // location.href='./products.html'
+                    location.href='./products.html'
                 }
                
             }).catch(err =>{
