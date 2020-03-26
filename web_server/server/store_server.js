@@ -22,11 +22,17 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+const whitelist = [
+    '/login'
+]
+
 app.use(function (req, res, next) {
-    if (req.url === '/login') {
+    if (whitelist.indexOf(req.url) !== -1) {
         next();
     } else {
         jwt.verify(req.cookies.token, key, function (err, loginObj) {
+            console.log(req.url);
+            
             if (err) {
                 res.send({
                     status: 10005,
