@@ -7,6 +7,11 @@ const Router = require('koa-router');
 const app = new koa();
 const router = new Router();
 
+//路由
+router.get('/',async(ctx)=>{
+    ctx.body = {msg:'hello'};
+});
+
 
 
 
@@ -17,6 +22,6 @@ app.use(router.routes()).use(router.allowedMethods());
 const port = process.env.PORT || 5000;
 
 app.listenerCount(port,()=>{
-    console.log(`${port}`);
+    console.log(`localhost:${port}`);
     
 })

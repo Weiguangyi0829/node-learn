@@ -17,8 +17,29 @@ const bodyParser = require('body-parser');
 const app = express();
 
 app.use(bodyParser.json());
+
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
+app.use(function (req, res, next) {
+    if (req.url === '/login') {
+        next();
+    } else {
+        jwt.verify(req.cookies.token, key, function (err, loginObj) {
+            if (err) {
+                res.send({
+                    status: 10005,
+                    msg: 'token失效'
+                });
+                return;
+            }
+
+            next();
+        })
+    }
+
+});
 
 app.post('/register', (req, res) => {
     // console.log(req.body.login_name);
@@ -62,7 +83,7 @@ app.post('/login', (req, res) => {
                     login_name: lgn
 
                 }, key);
-                res.cookie('token',token);//(name,参数)
+                res.cookie('token', token);//(name,参数)
                 res.send({
                     status: 100,
                     msg: '登录成功',
@@ -79,37 +100,27 @@ app.post('/login', (req, res) => {
 
 app.get('/get_products', function (req, res) {
 
-    jwt.verify(req.cookies.token, key, function (err, loginObj) {
-        if (err) {
-            res.send({
-                status: 10005,
-                msg: 'token失效'
-            });
-            return;
-        }
-        getStoreDB(function (storeDb) {
-            storeDb.collection('products').find({}).toArray(function (err, result) {
-                if (err) {
-                    res.send({
-                        status: 10002,
-                        msg: '数据库连接错误'
-                    });
-                    return;
-                }
+
+    getStoreDB(function (storeDb) {
+        storeDb.collection('products').find({}).toArray(function (err, result) {
+            if (err) {
                 res.send({
-                    status: 100,
-                    msg: 'ok',
-                    data: {
-                        products: result
-                    }
-                })
+                    status: 10002,
+                    msg: '数据库连接错误'
+                });
+                return;
+            }
+            res.send({
+                status: 100,
+                msg: 'ok',
+                data: {
+                    products: result
+                }
             })
         })
+    })
 
-    });
-
-
-})
+});
 
 app.post('/add_products', function (req, res) {
     getStoreDB(function (storeDb) {
