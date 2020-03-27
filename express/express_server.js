@@ -23,6 +23,6 @@ app.listen(3030,function(err){
         console.log(err);
         return;
     }
-    console.log('服务已经启动，请访问http://localhost:3030');
+    console.log('http://localhost:3030');
     
 })
