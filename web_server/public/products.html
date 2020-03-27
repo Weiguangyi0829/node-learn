@@ -9,14 +9,14 @@
     <script>
         function getProducts() {
 
-            axios.get('/get_products').then(function (result) {
+            axios.get('/product/get_products').then(function (result) {
                 var productsData = result.data;
                 if (productsData.status === 100) {
                     painProducts(productsData.data.products);
 
 
                 }else if(productsData.status === 10005){
-                    location.href ='./login.html'
+                    // location.href ='./login.html'
                 }
             })
         }
@@ -39,7 +39,7 @@
             var name = document.getElementById('name').value;
             var price = document.getElementById('price').value;
             var count = document.getElementById('count').value;
-            axios.post('/add_products', {
+            axios.post('/product/add_products', {
                 name,
                 price,
                 count
@@ -51,7 +51,7 @@
         }
 
         function del_products(_id) {
-            axios.post('/del_products', {
+            axios.post('/product/del_products', {
                 _id
             }).then(function (result) {
                 if (result.data.status === 100) {
